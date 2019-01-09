@@ -39,7 +39,7 @@ Map publicJobConfig = [
     workerLabel: 'jenkins-worker',
     context: 'jenkins/js',
     refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    defaultBranch : 'tezt-rg'
 ]
 
 Map hawthornJobConfig = [
@@ -59,7 +59,7 @@ Map ginkgoJobConfig = [
     workerLabel: 'jenkins-worker',
     context: 'jenkins/ginkgo/js',
     refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
+    defaultBranch : 'tezt-rg'
 ]
 
 Map ficusJobConfig = [
