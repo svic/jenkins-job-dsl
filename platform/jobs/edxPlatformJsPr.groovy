@@ -76,7 +76,7 @@ Map publicFicusJobConfig = [
     jobName: 'ficus-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
+    whitelistBranchRegex: /tezt-rg/,
     context: 'jenkins/ficus/js',
     triggerPhrase: /.*ficus\W+run\W+js.*/
 ]
@@ -86,7 +86,7 @@ Map python3JobConfig = [
     jobName : 'edx-platform-python3-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    whitelistBranchRegex: /^((?!tezt-rg\/).)*$/,
     context: 'jenkins/python3.5/js',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+js.*/,
     commentOnly: true,
@@ -127,7 +127,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     credentials('jenkins-worker')
                 }

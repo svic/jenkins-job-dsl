@@ -38,7 +38,7 @@ Map publicJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/js',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
+    refSpec : '+refs/heads/tezt-rg:refs/remotes/origin/test-rg',
     defaultBranch : 'tezt-rg'
 ]
 
@@ -58,7 +58,7 @@ Map ginkgoJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/ginkgo/js',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
+    refSpec : '+refs/heads/*:refs/remotes/origin/*',
     defaultBranch : 'tezt-rg'
 ]
 
@@ -102,7 +102,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     credentials('jenkins-worker')
                 }

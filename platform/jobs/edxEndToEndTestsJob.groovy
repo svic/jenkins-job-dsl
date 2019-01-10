@@ -227,7 +227,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url('https://github.com/edx/edx-e2e-tests.git')
+                    url('https://github.com/raccoongang/edx-e2e-tests.git')
                     refspec(jobConfig.refspec)
                 }
                 if (jobConfig.trigger == 'merge') {
