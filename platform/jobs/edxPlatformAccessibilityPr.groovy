@@ -14,11 +14,7 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [
@@ -37,39 +33,29 @@ Map publicJobConfig = [
     jobName : 'edx-platform-accessibility-pr',
     repoName : 'edx-platform',
     workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    whitelistBranchRegex: /^((?!tezt-rg\/).)*$/,
     context: 'jenkins/a11y',
     triggerPhrase: /.*jenkins\W+run\W+a11y.*/
 ]
 
-Map publicHawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/a11y',
-    triggerPhrase: /.*hawthorn\W+run\W+a11y.*/
-]
+// Map publicHawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-accessibility-pr',
+//     repoName: 'edx-platform',
+//     workerLabel: 'hawthorn-jenkins-worker',
+//     whitelistBranchRegex: /open-release\/hawthorn.master/,
+//     context: 'jenkins/hawthorn/a11y',
+//     triggerPhrase: /.*hawthorn\W+run\W+a11y.*/
+// ]
 
 Map publicGinkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-accessibility-pr',
     repoName: 'edx-platform',
     workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
+    whitelistBranchRegex: /tezt-rg/,
     context: 'jenkins/ginkgo/a11y',
     triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
-]
-
-Map publicFicusJobConfig = [
-    open: true,
-    jobName: 'ficus-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/a11y',
-    triggerPhrase: /.*ficus\W+run\W+a11y.*/
 ]
 
 Map python3JobConfig = [
@@ -77,7 +63,7 @@ Map python3JobConfig = [
     jobName : 'edx-platform-python3-accessibility-pr',
     repoName : 'edx-platform',
     workerLabel: 'jenkins-worker',
-    whitelistBranchRegex: /^((?!open-release\/).)*$/,
+    whitelistBranchRegex: /^((?!tezt-rg\/).)*$/,
     context: 'jenkins/python3.5/a11y',
     triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+a11y.*/,
     commentOnly: true,
@@ -86,9 +72,8 @@ Map python3JobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    publicHawthornJobConfig,
+    //publicHawthornJobConfig,
     publicGinkgoJobConfig,
-    publicFicusJobConfig,
     python3JobConfig
 ]
 
@@ -117,7 +102,7 @@ jobConfigs.each { jobConfig ->
         scm {
            git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec('+refs/pull/*:refs/remotes/origin/pr/*')
                     credentials('jenkins-worker')
                 }

@@ -23,11 +23,11 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+// Map ghprbMap = [
+//     admin: ['alexei.kornienko@raccoongang.com'],
+//     userWhiteList: ['alexei.kornienko@raccoongang.com'],
+//     orgWhiteList: ['raccoongang'],
+// ]
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [
@@ -51,34 +51,24 @@ Map publicJobConfig = [
     triggerPhrase: /.*jenkins\W+run\W+js.*/
 ]
 
-Map publicHawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    whitelistBranchRegex: /open-release\/hawthorn.master/,
-    context: 'jenkins/hawthorn/js',
-    triggerPhrase: /.*hawthorn\W+run\W+js.*/
-]
+// Map publicHawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-js-pr',
+//     repoName: 'edx-platform',
+//     workerLabel: 'hawthorn-jenkins-worker',
+//     whitelistBranchRegex: /open-release\/hawthorn.master/,
+//     context: 'jenkins/hawthorn/js',
+//     triggerPhrase: /.*hawthorn\W+run\W+js.*/
+// ]
 
 Map publicGinkgoJobConfig = [
     open: true,
     jobName: 'ginkgo-js-pr',
     repoName: 'edx-platform',
     workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
+    whitelistBranchRegex: /tezt-rg/,
     context: 'jenkins/ginkgo/js',
     triggerPhrase: /.*ginkgo\W+run\W+js.*/
-]
-
-Map publicFicusJobConfig = [
-    open: true,
-    jobName: 'ficus-js-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /tezt-rg/,
-    context: 'jenkins/ficus/js',
-    triggerPhrase: /.*ficus\W+run\W+js.*/
 ]
 
 Map python3JobConfig = [
@@ -95,9 +85,8 @@ Map python3JobConfig = [
 
 List jobConfigs = [
     publicJobConfig,
-    publicHawthornJobConfig,
+   // publicHawthornJobConfig,
     publicGinkgoJobConfig,
-    publicFicusJobConfig,
     python3JobConfig
 ]
 
@@ -128,7 +117,7 @@ jobConfigs.each { jobConfig ->
             git {
                 remote {
                     url("git@github.com:raccoongang/${jobConfig.repoName}.git")
-                    refspec('+refs/pull/*:refs/remotes/origin/pr/*')
+                    refspec('+refs/pull/tezt-rg:refs/remotes/origin/pr/tezt-rg')
                     credentials('jenkins-worker')
                 }
                 branch('\${ghprbActualCommit}')

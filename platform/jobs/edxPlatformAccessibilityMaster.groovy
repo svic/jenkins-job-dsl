@@ -35,19 +35,19 @@ Map publicJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/a11y',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    refSpec : '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
+    defaultBranch : 'tezt-rg'
 ]
 
-Map hawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-accessibility-master',
-    repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    context: 'jenkins/hawthorn/a11y',
-    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
-    defaultBranch : 'refs/heads/open-release/hawthorn.master'
-]
+// Map hawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-accessibility-master',
+//     repoName: 'edx-platform',
+//     workerLabel: 'hawthorn-jenkins-worker',
+//     context: 'jenkins/hawthorn/a11y',
+//     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+//     defaultBranch : 'refs/heads/open-release/hawthorn.master'
+// ]
 
 Map ginkgoJobConfig = [
     open: true,
@@ -55,25 +55,15 @@ Map ginkgoJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'ginkgo-jenkins-worker',
     context: 'jenkins/ginkgo/a11y',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
+    refSpec : '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
+    defaultBranch : 'refs/heads/tezt-rg'
 ]
 
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-accessibility-master',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/a11y',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
 
 List jobConfigs = [
     publicJobConfig,
-    hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+//    hawthornJobConfig,
+    ginkgoJobConfig
 ]
 
 jobConfigs.each { jobConfig ->
@@ -97,7 +87,7 @@ jobConfigs.each { jobConfig ->
         scm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     credentials('jenkins-worker')
                 }
@@ -131,7 +121,7 @@ jobConfigs.each { jobConfig ->
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
         predefinedPropsMap.put('CONTEXT', jobConfig.context)
         predefinedPropsMap.put('GITHUB_REPO', jobConfig.repoName)
         predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +

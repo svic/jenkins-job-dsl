@@ -52,21 +52,21 @@ Map publicJobConfig = [
     defaultBranch : 'master'
 ]
 
-Map hawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-python-unittests-master',
-    flowWorkerLabel: 'flow-worker-python',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    runCoverage: true,
-    coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'hawthorn-jenkins-worker',
-    context: 'jenkins/hawthorn/python',
-    targetBranch: 'origin/open-release/hawthorn.master',
-    defaultTestengBranch : 'refs/heads/open-release/hawthorn.master',
-    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
-    defaultBranch : 'refs/heads/open-release/hawthorn.master'
-]
+// Map hawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-python-unittests-master',
+//     flowWorkerLabel: 'flow-worker-python',
+//     subsetJob: 'edx-platform-test-subset',
+//     repoName: 'edx-platform',
+//     runCoverage: true,
+//     coverageJob: 'edx-platform-unit-coverage',
+//     workerLabel: 'hawthorn-jenkins-worker',
+//     context: 'jenkins/hawthorn/python',
+//     targetBranch: 'origin/open-release/hawthorn.master',
+//     defaultTestengBranch : 'refs/heads/open-release/hawthorn.master',
+//     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+//     defaultBranch : 'refs/heads/open-release/hawthorn.master'
+// ]
 
 Map ginkgoJobConfig = [
     open: true,
@@ -84,27 +84,11 @@ Map ginkgoJobConfig = [
     defaultBranch : 'refs/heads/open-release/ginkgo.master'
 ]
 
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-python-unittests-master',
-    flowWorkerLabel: 'flow-worker-python',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    runCoverage: true,
-    coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/python',
-    targetBranch: 'origin/open-release/ficus.master',
-    defaultTestengBranch : 'refs/heads/open-release/ficus.master',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
 
 List jobConfigs = [
     publicJobConfig,
     hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    ginkgoJobConfig
 ]
 
 jobConfigs.each { jobConfig ->
@@ -134,7 +118,7 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     credentials('jenkins-worker')
                 }
@@ -171,7 +155,7 @@ jobConfigs.each { jobConfig ->
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
         predefinedPropsMap.put('CONTEXT', jobConfig.context)
 
         dslFile('testeng-ci/jenkins/flow/master/edx-platform-python-unittests-master.groovy')

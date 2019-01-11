@@ -36,22 +36,22 @@ Map publicJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'jenkins-worker',
     context: 'jenkins/bokchoy',
-    defaultTestengBranch: 'master',
-    refSpec : '+refs/heads/master:refs/remotes/origin/master',
-    defaultBranch : 'master'
+    defaultTestengBranch: 'tezt-rg',
+    refSpec : '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
+    defaultBranch : 'tezt-rg'
 ]
 
-Map publicHawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-bok-choy-master',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
-    context: 'jenkins/hawthorn/bokchoy',
-    defaultTestengBranch: 'origin/open-release/hawthorn.master',
-    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
-    defaultBranch : 'refs/heads/open-release/hawthorn.master'
-]
+// Map publicHawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-bok-choy-master',
+//     subsetJob: 'edx-platform-test-subset',
+//     repoName: 'edx-platform',
+//     workerLabel: 'hawthorn-jenkins-worker',
+//     context: 'jenkins/hawthorn/bokchoy',
+//     defaultTestengBranch: 'origin/open-release/hawthorn.master',
+//     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+//     defaultBranch : 'refs/heads/open-release/hawthorn.master'
+// ]
 
 Map publicGinkgoJobConfig = [
     open: true,
@@ -60,28 +60,16 @@ Map publicGinkgoJobConfig = [
     repoName: 'edx-platform',
     workerLabel: 'ginkgo-jenkins-worker',
     context: 'jenkins/ginkgo/bokchoy',
-    defaultTestengBranch: 'origin/open-release/ginkgo.master',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
+    defaultTestengBranch: 'origin/tezt-rg',
+    refSpec : '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
+    defaultBranch : 'refs/heads/tezt-rg'
 ]
 
-Map publicFicusJobConfig = [
-    open: true,
-    jobName: 'ficus-bok-choy-master',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/bokchoy',
-    defaultTestengBranch: 'origin/open-release/ficus.master',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
 
 List jobConfigs = [
     publicJobConfig,
-    publicHawthornJobConfig,
-    publicGinkgoJobConfig,
-    publicFicusJobConfig
+  //  publicHawthornJobConfig,
+    publicGinkgoJobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -110,7 +98,7 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
-                    url("git@github.com:edx/${jobConfig.repoName}.git")
+                    url("git@github.com:raccoongang/${jobConfig.repoName}.git")
                     refspec(jobConfig.refSpec)
                     credentials('jenkins-worker')
                 }
@@ -129,7 +117,7 @@ jobConfigs.each { jobConfig ->
             }
             git {
                 remote {
-                    url('https://github.com/edx/testeng-ci.git')
+                    url('https://github.com/raccoongang/testeng-ci.git')
                 }
                 branch(jobConfig.defaultTestengBranch)
                 browser()
@@ -147,7 +135,7 @@ jobConfigs.each { jobConfig ->
 
         Map <String, String> predefinedPropsMap  = [:]
         predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-        predefinedPropsMap.put('GITHUB_ORG', 'edx')
+        predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
         predefinedPropsMap.put('CONTEXT', jobConfig.context)
         predefinedPropsMap.put('GITHUB_REPO', jobConfig.repoName)
         predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +

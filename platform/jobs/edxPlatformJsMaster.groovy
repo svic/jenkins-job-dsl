@@ -42,15 +42,15 @@ Map publicJobConfig = [
     defaultBranch : 'tezt-rg'
 ]
 
-Map hawthornJobConfig = [
-    open: true,
-    jobName: 'hawthorn-js-master',
-    repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/hawthorn/js',
-    refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
-    defaultBranch : 'refs/heads/open-release/hawthorn.master'
-]
+// Map hawthornJobConfig = [
+//     open: true,
+//     jobName: 'hawthorn-js-master',
+//     repoName: 'edx-platform',
+//     workerLabel: 'jenkins-worker',
+//     context: 'jenkins/hawthorn/js',
+//     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
+//     defaultBranch : 'refs/heads/open-release/hawthorn.master'
+// ]
 
 Map ginkgoJobConfig = [
     open: true,
@@ -62,21 +62,11 @@ Map ginkgoJobConfig = [
     defaultBranch : 'tezt-rg'
 ]
 
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-js-master',
-    repoName: 'edx-platform',
-    workerLabel: 'jenkins-worker',
-    context: 'jenkins/ficus/js',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
 
 List jobConfigs = [
     publicJobConfig,
-    hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    //hawthornJobConfig,
+    ginkgoJobConfig
 ]
 
 /* Iterate over the job configurations */

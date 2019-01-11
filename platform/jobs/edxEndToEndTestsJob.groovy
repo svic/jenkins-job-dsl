@@ -18,11 +18,7 @@ PrintStream out = config['out']
 /* Map to hold the k:v pairs parsed from the secret file */
 Map mailingListMap = [:]
 Map securityGroupMap = [:]
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
 try {
     out.println('Parsing secret YAML file')
     String mailingListSecretContents  = new File("${MAILING_LIST_SECRET}").text
@@ -76,8 +72,8 @@ Map pipelineJob = [ name: 'edx-e2e-tests',
                     testSuite: 'e2e',
                     worker: 'jenkins-worker',
                     trigger: 'pipeline',
-                    branch: '*/master',
-                    refspec: '+refs/heads/master:refs/remotes/origin/master',
+                    branch: '*/tezt-rg',
+                    refspec: '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
                     description: 'Run end-to-end tests against GoCD deployments',
                     courseNumber: 'E2E-1000',
                     testScript: 'jenkins/end_to_end_tests.sh',
@@ -91,8 +87,8 @@ Map micrositesPipelineJob = [ name: 'microsites-staging-tests',
                     testSuite: 'microsites',
                     worker: 'jenkins-worker',
                     trigger: 'pipeline',
-                    branch: '*/master',
-                    refspec: '+refs/heads/master:refs/remotes/origin/master',
+                    branch: '*/tezt-rg',
+                    refspec: '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
                     description: 'Run microsites tests against GoCD deployments',
                     testScript: 'edx-e2e-tests/jenkins/white_label.sh',
                     junitReportPath: 'edx-e2e-tests/*.xml,edx-e2e-tests/reports/*.xml'
@@ -143,8 +139,8 @@ Map mergeJob = [  name: 'edx-e2e-tests-merge',
                   testSuite: 'e2e',
                   worker: 'jenkins-worker',
                   trigger: 'merge',
-                  branch: '*/master',
-                  refspec: '+refs/heads/master:refs/remotes/origin/master',
+                  branch: '*/tezt-rg',
+                  refspec: '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
                   description: 'Verify the quality of changes made to the end-to-end tests',
                   courseNumber: 'E2E-1001',
                   testScript: 'jenkins/end_to_end_tests.sh',
@@ -159,8 +155,8 @@ Map micrositesMergeJob = [  name: 'microsites-staging-tests-merge',
                             testSuite: 'microsites',
                             worker: 'jenkins-worker',
                             trigger: 'merge',
-                            branch: '*/master',
-                            refspec: '+refs/heads/master:refs/remotes/origin/master',
+                            branch: '*/tezt-rg',
+                            refspec: '+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg',
                             description: 'Verify the quality of changes made to the microsite tests',
                             testScript: 'edx-e2e-tests/jenkins/white_label.sh',
                             context: 'jenkins/microsites',
@@ -329,7 +325,7 @@ jobConfigs.each { jobConfig ->
             if (jobConfig.trigger == 'merge') {
                 Map <String, String> predefinedPropsMap  = [:]
                 predefinedPropsMap.put('GIT_SHA', '${GIT_COMMIT}')
-                predefinedPropsMap.put('GITHUB_ORG', 'edx')
+                predefinedPropsMap.put('GITHUB_ORG', 'raccoongang')
                 predefinedPropsMap.put('CONTEXT', jobConfig.context)
                 predefinedPropsMap.put('GITHUB_REPO', 'edx-e2e-tests')
                 predefinedPropsMap.put('TARGET_URL', JENKINS_PUBLIC_BASE_URL +
