@@ -55,35 +55,9 @@ Map hawthornJobConfig = [
     defaultBranch : 'refs/heads/open-release/hawthorn.master'
 ]
 
-Map ginkgoJobConfig = [
-    open: true,
-    jobName: 'ginkgo-lettuce-master',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    workerLabel: 'ginkgo-jenkins-worker',
-    context: 'jenkins/ginkgo/lettuce',
-    defaultTestengBranch : 'refs/heads/open-release/ginkgo.master',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
-]
-
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-lettuce-master',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/lettuce',
-    defaultTestengBranch : 'refs/heads/open-release/ficus.master',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
-
 List jobConfigs = [
     publicJobConfig,
-    hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    hawthornJobConfig
 ]
 
 /* Iterate over the job configurations */
@@ -100,7 +74,7 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        label('flow-worker-lettuce')
+        label('jenkins-worker')
         checkoutRetryCount(5)
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)

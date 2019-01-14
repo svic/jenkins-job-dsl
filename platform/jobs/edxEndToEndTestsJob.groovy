@@ -205,7 +205,14 @@ jobConfigs.each { jobConfig ->
         label(jobConfig.worker)
         // Disable concurrent builds because the environment in use is a shared
         // resource, and concurrent builds can cause spurious test results
-        concurrentBuild(false)
+        concurrentBuild(f
+
+
+
+
+
+
+            lse)
 
         parameters {
             if (jobConfig.testSuite == 'e2e') {

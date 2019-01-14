@@ -60,26 +60,6 @@ Map publicHawthornJobConfig = [
     triggerPhrase: /.*hawthorn\W+run\W+a11y.*/
 ]
 
-Map publicGinkgoJobConfig = [
-    open: true,
-    jobName: 'ginkgo-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ginkgo-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ginkgo.master/,
-    context: 'jenkins/ginkgo/a11y',
-    triggerPhrase: /.*ginkgo\W+run\W+a11y.*/
-]
-
-Map publicFicusJobConfig = [
-    open: true,
-    jobName: 'ficus-accessibility-pr',
-    repoName: 'edx-platform',
-    workerLabel: 'ficus-jenkins-worker',
-    whitelistBranchRegex: /open-release\/ficus.master/,
-    context: 'jenkins/ficus/a11y',
-    triggerPhrase: /.*ficus\W+run\W+a11y.*/
-]
-
 Map python3JobConfig = [
     open : true,
     jobName : 'edx-platform-python3-accessibility-pr',
@@ -95,8 +75,6 @@ Map python3JobConfig = [
 List jobConfigs = [
     publicJobConfig,
     publicHawthornJobConfig,
-    publicGinkgoJobConfig,
-    publicFicusJobConfig,
     python3JobConfig
 ]
 

@@ -59,34 +59,12 @@ Map publicHawthornJobConfig = [ open: true,
                                jobName: 'hawthorn-lettuce-pr',
                                subsetJob: 'edx-platform-test-subset',
                                repoName: 'edx-platform',
-                               workerLabel: 'hawthorn-jenkins-worker',
+                               workerLabel: 'jenkins-worker',
                                whitelistBranchRegex: /open-release\/hawthorn.master/,
                                context: 'jenkins/hawthorn/lettuce',
                                triggerPhrase: /.*hawthorn\W+run\W+lettuce.*/,
                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
-
-Map publicGinkgoJobConfig = [ open: true,
-                              jobName: 'ginkgo-lettuce-pr',
-                              subsetJob: 'edx-platform-test-subset',
-                              repoName: 'edx-platform',
-                              workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
-                              context: 'jenkins/ginkgo/lettuce',
-                              triggerPhrase: /.*ginkgo\W+run\W+lettuce.*/,
-                              defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                              ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-lettuce-pr',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/lettuce',
-                             triggerPhrase: /.*ficus\W+run\W+lettuce.*/,
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
 
 Map python3JobConfig = [ open : true,
                         jobName : 'edx-platform-python3-lettuce-pr',
@@ -103,8 +81,6 @@ Map python3JobConfig = [ open : true,
 
 List jobConfigs = [ publicJobConfig,
                     publicHawthornJobConfig,
-                    publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 

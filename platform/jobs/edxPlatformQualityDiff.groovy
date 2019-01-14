@@ -79,7 +79,7 @@ jobConfigs.each { jobConfig ->
             }
         }
         concurrentBuild(true)
-        label('coverage-worker')
+        label('jenkins-worker')
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)
         }

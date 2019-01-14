@@ -58,7 +58,7 @@ Map hawthornJobConfig = [
     jobName: 'hawthorn-quality-flow-master',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
-    workerLabel: 'hawthorn-jenkins-worker',
+    workerLabel: 'jenkins-worker',
     context: 'jenkins/hawthorn/quality',
     defaultTestengBranch : 'refs/heads/open-release/hawthorn.master',
     refSpec : '+refs/heads/open-release/hawthorn.master:refs/remotes/origin/open-release/hawthorn.master',
@@ -84,7 +84,7 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        label('flow-worker-quality')
+        label('jenkins-worker')
         checkoutRetryCount(5)
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)

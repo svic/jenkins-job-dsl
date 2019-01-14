@@ -115,7 +115,7 @@ Map publicJobConfig = [ open : true,
                         jobName : 'edx-platform-unit-coverage',
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
-                        workerLabel: 'coverage-worker',
+                        workerLabel: 'jenkins-worker',
                         timeout: 20
                         ]
 

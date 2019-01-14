@@ -68,7 +68,7 @@ job('github-build-status') {
             )
     }
     concurrentBuild()
-    label('github-status-worker')
+    label('jenkins-worker')
     steps {
         shell(readFileFromWorkspace('platform/resources/github_status_shell.sh'))
     }

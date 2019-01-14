@@ -67,27 +67,6 @@ Map publicHawthornJobConfig = [ open: true,
                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
 
-Map publicGinkgoJobConfig = [ open: true,
-                              jobName: 'ginkgo-bok-choy-pr',
-                              subsetJob: 'edx-platform-test-subset',
-                              repoName: 'edx-platform',
-                              workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
-                              context: 'jenkins/ginkgo/bokchoy',
-                              triggerPhrase: /.*ginkgo\W+run\W+bokchoy.*/,
-                              defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                              ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-bok-choy-pr',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/bokchoy',
-                             triggerPhrase: /.*ficus\W+run\W+bokchoy.*/,
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
 
 Map python3JobConfig = [ open : true,
                          jobName : 'edx-platform-python3-bok-choy-pr',
@@ -104,8 +83,6 @@ Map python3JobConfig = [ open : true,
 
 List jobConfigs = [ publicJobConfig,
                     publicHawthornJobConfig,
-                    publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 
@@ -122,7 +99,7 @@ jobConfigs.each { jobConfig ->
         }
         logRotator JENKINS_PUBLIC_LOG_ROTATOR(7)
         concurrentBuild()
-        label('flow-worker-bokchoy')
+        label('jenkins-worker')
         checkoutRetryCount(5)
         environmentVariables {
             env('SUBSET_JOB', jobConfig.subsetJob)

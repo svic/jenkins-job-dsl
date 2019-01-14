@@ -55,12 +55,12 @@ Map publicJobConfig = [
 Map hawthornJobConfig = [
     open: true,
     jobName: 'hawthorn-python-unittests-master',
-    flowWorkerLabel: 'flow-worker-python',
+    flowWorkerLabel: 'jenkins-worker',
     subsetJob: 'edx-platform-test-subset',
     repoName: 'edx-platform',
     runCoverage: true,
     coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'hawthorn-jenkins-worker',
+    workerLabel: 'jenkins-worker',
     context: 'jenkins/hawthorn/python',
     targetBranch: 'origin/open-release/hawthorn.master',
     defaultTestengBranch : 'refs/heads/open-release/hawthorn.master',
@@ -68,43 +68,9 @@ Map hawthornJobConfig = [
     defaultBranch : 'refs/heads/open-release/hawthorn.master'
 ]
 
-Map ginkgoJobConfig = [
-    open: true,
-    jobName: 'ginkgo-python-unittests-master',
-    flowWorkerLabel: 'flow-worker-python',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    runCoverage: true,
-    coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'ginkgo-jenkins-worker',
-    context: 'jenkins/ginkgo/python',
-    targetBranch: 'origin/open-release/ginkgo.master',
-    defaultTestengBranch : 'refs/heads/open-release/ginkgo.master',
-    refSpec : '+refs/heads/open-release/ginkgo.master:refs/remotes/origin/open-release/ginkgo.master',
-    defaultBranch : 'refs/heads/open-release/ginkgo.master'
-]
-
-Map ficusJobConfig = [
-    open: true,
-    jobName: 'ficus-python-unittests-master',
-    flowWorkerLabel: 'flow-worker-python',
-    subsetJob: 'edx-platform-test-subset',
-    repoName: 'edx-platform',
-    runCoverage: true,
-    coverageJob: 'edx-platform-unit-coverage',
-    workerLabel: 'ficus-jenkins-worker',
-    context: 'jenkins/ficus/python',
-    targetBranch: 'origin/open-release/ficus.master',
-    defaultTestengBranch : 'refs/heads/open-release/ficus.master',
-    refSpec : '+refs/heads/open-release/ficus.master:refs/remotes/origin/open-release/ficus.master',
-    defaultBranch : 'refs/heads/open-release/ficus.master'
-]
-
 List jobConfigs = [
     publicJobConfig,
-    hawthornJobConfig,
-    ginkgoJobConfig,
-    ficusJobConfig
+    hawthornJobConfig
 ]
 
 jobConfigs.each { jobConfig ->

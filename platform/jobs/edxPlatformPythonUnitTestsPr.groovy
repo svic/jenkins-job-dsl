@@ -53,7 +53,7 @@ catch (any) {
 // Individual Job Configurations
 Map publicJobConfig = [ open: true,
                         jobName: 'edx-platform-python-unittests-pr',
-                        flowWorkerLabel: 'flow-worker-python',
+                        flowWorkerLabel: 'jenkins-worker',
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
                         runCoverage: true,
@@ -68,12 +68,12 @@ Map publicJobConfig = [ open: true,
 
 Map publicHawthornJobConfig = [ open: true,
                                jobName: 'hawthorn-python-unittests-pr',
-                               flowWorkerLabel: 'flow-worker-python',
+                               flowWorkerLabel: 'jenkins-worker',
                                subsetJob: 'edx-platform-test-subset',
                                repoName: 'edx-platform',
                                runCoverage: true,
                                coverageJob: 'edx-platform-unit-coverage',
-                               workerLabel: 'hawthorn-jenkins-worker',
+                               workerLabel: 'jenkins-worker',
                                whitelistBranchRegex: /open-release\/hawthorn.master/,
                                context: 'jenkins/hawthorn/python',
                                triggerPhrase: /.*hawthorn\W+run\W+python.*/,
@@ -81,39 +81,9 @@ Map publicHawthornJobConfig = [ open: true,
                                defaultTestengBranch: 'origin/open-release/hawthorn.master'
                                ]
 
-Map publicGinkgoJobConfig = [ open: true,
-                              jobName: 'ginkgo-python-unittests-pr',
-                              flowWorkerLabel: 'flow-worker-python',
-                              subsetJob: 'edx-platform-test-subset',
-                              repoName: 'edx-platform',
-                              runCoverage: true,
-                              coverageJob: 'edx-platform-unit-coverage',
-                              workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
-                              context: 'jenkins/ginkgo/python',
-                              triggerPhrase: /.*ginkgo\W+run\W+python.*/,
-                              targetBranch: 'origin/open-release/ginkgo.master',
-                              defaultTestengBranch: 'origin/open-release/ginkgo.master'
-                              ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-python-unittests-pr',
-                             flowWorkerLabel: 'flow-worker-python',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             runCoverage: true,
-                             coverageJob: 'edx-platform-unit-coverage',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/python',
-                             triggerPhrase: /.*ficus\W+run\W+python.*/,
-                             targetBranch: 'origin/open-release/ficus.master',
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
-
 Map python3JobConfig = [ open: true,
                          jobName: 'edx-platform-python3-unittests-pr',
-                         flowWorkerLabel: 'flow-worker-python',
+                         flowWorkerLabel: 'jenkins-worker',
                          subsetJob: 'edx-platform-test-subset',
                          repoName: 'edx-platform',
                          runCoverage: true,
@@ -130,8 +100,6 @@ Map python3JobConfig = [ open: true,
 
 List jobConfigs = [ publicJobConfig,
                     publicHawthornJobConfig,
-                    publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 
