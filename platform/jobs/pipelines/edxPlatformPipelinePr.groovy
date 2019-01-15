@@ -11,8 +11,8 @@ PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
+    admin: ['svic'],
+    userWhiteList: ['svic'],
     orgWhiteList: ['raccoongang'],
 ]
 
@@ -104,7 +104,7 @@ jobConfigs.each { jobConfig ->
                         }
                         remote {
                             credentials('jenkins-worker')
-                            github('edx/edx-platform', 'ssh', 'github.com')
+                            github('raccoongang/edx-platform', 'ssh', 'github.com')
                             refspec('+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*')
                             branch('\${sha1}')
                         }

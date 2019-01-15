@@ -15,8 +15,8 @@ PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
 Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
+    admin: ['svic'],
+    userWhiteList: ['svic'],
     orgWhiteList: ['raccoongang'],
 ]
 
@@ -54,24 +54,10 @@ Map publicJobConfig = [ open: true,
                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
                         context: 'jenkins/python',
                         triggerPhrase: /.*jenkins\W+run\W+python.*/,
-                        targetBranch: 'origin/master',
+                        targetBranch: 'origin/tezt-rg',
                         defaultTestengBranch: 'master'
                         ]
 
-Map publicHawthornJobConfig = [ open: true,
-                               jobName: 'hawthorn-python-unittests-pr',
-                               flowWorkerLabel: 'flow-worker-python',
-                               subsetJob: 'edx-platform-test-subset',
-                               repoName: 'edx-platform',
-                               runCoverage: true,
-                               coverageJob: 'edx-platform-unit-coverage',
-                               workerLabel: 'hawthorn-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/hawthorn.master/,
-                               context: 'jenkins/hawthorn/python',
-                               triggerPhrase: /.*hawthorn\W+run\W+python.*/,
-                               targetBranch: 'origin/open-release/hawthorn.master',
-                               defaultTestengBranch: 'origin/open-release/hawthorn.master'
-                               ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
@@ -84,24 +70,9 @@ Map publicGinkgoJobConfig = [ open: true,
                               whitelistBranchRegex: /open-release\/ginkgo.master/,
                               context: 'jenkins/ginkgo/python',
                               triggerPhrase: /.*ginkgo\W+run\W+python.*/,
-                              targetBranch: 'origin/open-release/ginkgo.master',
+                              targetBranch: 'origin/tez-rg',
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-python-unittests-pr',
-                             flowWorkerLabel: 'flow-worker-python',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             runCoverage: true,
-                             coverageJob: 'edx-platform-unit-coverage',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/python',
-                             triggerPhrase: /.*ficus\W+run\W+python.*/,
-                             targetBranch: 'origin/open-release/ficus.master',
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
 
 Map python3JobConfig = [ open: true,
                          jobName: 'edx-platform-python3-unittests-pr',
@@ -114,16 +85,14 @@ Map python3JobConfig = [ open: true,
                          whitelistBranchRegex: /^((?!open-release\/).)*$/,
                          context: 'jenkins/python3.5/python',
                          triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
-                         targetBranch: 'origin/master',
+                         targetBranch: 'origin/tezt-rg',
                          defaultTestengBranch: 'master',
                          commentOnly: true,
                          toxEnv: 'py35-django111'
                          ]
 
 List jobConfigs = [ publicJobConfig,
-                    publicHawthornJobConfig,
                     publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 
@@ -156,7 +125,7 @@ jobConfigs.each { jobConfig ->
         multiscm {
             git {
                 remote {
-                    url('https://github.com/edx/testeng-ci.git')
+                    url('https://github.com/raccoongang/testeng-ci.git')
                 }
                 branch(jobConfig.defaultTestengBranch)
                 browser()

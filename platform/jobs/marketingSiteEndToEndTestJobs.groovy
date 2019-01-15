@@ -56,7 +56,7 @@ job(jobName) {
     scm {
         git {
             remote {
-                url('https://github.com/edx/edx-mktg.git')
+                url('https://github.com/raccoongang/edx-mktg.git')
                 credentials(secretMap['credential'])
             }
             browser()
