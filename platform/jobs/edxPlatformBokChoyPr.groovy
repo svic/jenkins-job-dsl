@@ -15,11 +15,19 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
+try {
+    out.println('Parsing secret YAML file')
+    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
+    Yaml yaml = new Yaml()
+    ghprbMap = yaml.load(ghprbConfigContents)
+    out.println('Successfully parsed secret YAML file')
+}
+catch (any) {
+    out.println('Jenkins DSL: Error parsing secret YAML file')
+    out.println('Exiting with error code 1')
+    return 1
+}
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [ open: true/false if this job should be 'open' (use the default security scheme or not)
@@ -42,51 +50,29 @@ Map publicJobConfig = [ open : true,
                         subsetJob: 'edx-platform-test-subset',
                         repoName: 'edx-platform',
                         workerLabel: 'jenkins-worker',
-                        whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                        whitelistBranchRegex: /^(?!tezt-rg)*$/,
                         context: 'jenkins/bokchoy',
                         triggerPhrase: /.*jenkins\W+run\W+bokchoy.*/,
                         defaultTestengBranch: 'master'
                         ]
-
-Map publicHawthornJobConfig = [ open: true,
-                               jobName: 'hawthorn-bok-choy-pr',
-                               subsetJob: 'edx-platform-test-subset',
-                               repoName: 'edx-platform',
-                               workerLabel: 'hawthorn-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/hawthorn.master/,
-                               context: 'jenkins/hawthorn/bokchoy',
-                               triggerPhrase: /.*hawthorn\W+run\W+bokchoy.*/,
-                               defaultTestengBranch: 'origin/open-release/hawthorn.master'
-                               ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-bok-choy-pr',
                               subsetJob: 'edx-platform-test-subset',
                               repoName: 'edx-platform',
                               workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
+                              whitelistBranchRegex: /ginkgo-test-[0-100]/,
                               context: 'jenkins/ginkgo/bokchoy',
                               triggerPhrase: /.*ginkgo\W+run\W+bokchoy.*/,
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-bok-choy-pr',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/bokchoy',
-                             triggerPhrase: /.*ficus\W+run\W+bokchoy.*/,
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
 
 Map python3JobConfig = [ open : true,
                          jobName : 'edx-platform-python3-bok-choy-pr',
                          subsetJob: 'edx-platform-test-subset',
                          repoName: 'edx-platform',
                          workerLabel: 'jenkins-worker',
-                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                         whitelistBranchRegex: /^(?!tezt-rg)*$/,
                          context: 'jenkins/python3.5/bokchoy',
                          triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+bokchoy.*/,
                          defaultTestengBranch: 'master',
@@ -95,9 +81,7 @@ Map python3JobConfig = [ open : true,
                          ]
 
 List jobConfigs = [ publicJobConfig,
-                    publicHawthornJobConfig,
                     publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 

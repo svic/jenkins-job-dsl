@@ -14,11 +14,19 @@ config.putAll(bindings.getVariables())
 PrintStream out = config['out']
 
 /* Map to hold the k:v pairs parsed from the secret file */
-Map ghprbMap = [
-    admin: ['alexei.kornienko@raccoongang.com'],
-    userWhiteList: ['alexei.kornienko@raccoongang.com'],
-    orgWhiteList: ['raccoongang'],
-]
+Map ghprbMap = [:]
+try {
+    out.println('Parsing secret YAML file')
+    String ghprbConfigContents = new File("${GHPRB_SECRET}").text
+    Yaml yaml = new Yaml()
+    ghprbMap = yaml.load(ghprbConfigContents)
+    out.println('Successfully parsed secret YAML file')
+}
+catch (any) {
+    out.println('Jenkins DSL: Error parsing secret YAML file')
+    out.println('Exiting with error code 1')
+    return 1
+}
 
 // This script generates a lot of jobs. Here is the breakdown of the configuration options:
 // Map exampleConfig = [ open: true/false if this job should be 'open' (use the default security scheme or not)
@@ -51,27 +59,12 @@ Map publicJobConfig = [ open: true,
                         runCoverage: true,
                         coverageJob: 'edx-platform-unit-coverage',
                         workerLabel: 'jenkins-worker',
-                        whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                        whitelistBranchRegex: /^(?!tezt-rg)*$/,
                         context: 'jenkins/python',
                         triggerPhrase: /.*jenkins\W+run\W+python.*/,
-                        targetBranch: 'origin/master',
+                        targetBranch: 'origin/tezt-rg',
                         defaultTestengBranch: 'master'
                         ]
-
-Map publicHawthornJobConfig = [ open: true,
-                               jobName: 'hawthorn-python-unittests-pr',
-                               flowWorkerLabel: 'flow-worker-python',
-                               subsetJob: 'edx-platform-test-subset',
-                               repoName: 'edx-platform',
-                               runCoverage: true,
-                               coverageJob: 'edx-platform-unit-coverage',
-                               workerLabel: 'hawthorn-jenkins-worker',
-                               whitelistBranchRegex: /open-release\/hawthorn.master/,
-                               context: 'jenkins/hawthorn/python',
-                               triggerPhrase: /.*hawthorn\W+run\W+python.*/,
-                               targetBranch: 'origin/open-release/hawthorn.master',
-                               defaultTestengBranch: 'origin/open-release/hawthorn.master'
-                               ]
 
 Map publicGinkgoJobConfig = [ open: true,
                               jobName: 'ginkgo-python-unittests-pr',
@@ -81,27 +74,12 @@ Map publicGinkgoJobConfig = [ open: true,
                               runCoverage: true,
                               coverageJob: 'edx-platform-unit-coverage',
                               workerLabel: 'ginkgo-jenkins-worker',
-                              whitelistBranchRegex: /open-release\/ginkgo.master/,
+                              whitelistBranchRegex: /tezt-rg/,
                               context: 'jenkins/ginkgo/python',
                               triggerPhrase: /.*ginkgo\W+run\W+python.*/,
-                              targetBranch: 'origin/open-release/ginkgo.master',
+                              targetBranch: 'origin/ginkgo-rg',
                               defaultTestengBranch: 'origin/open-release/ginkgo.master'
                               ]
-
-Map publicFicusJobConfig = [ open: true,
-                             jobName: 'ficus-python-unittests-pr',
-                             flowWorkerLabel: 'flow-worker-python',
-                             subsetJob: 'edx-platform-test-subset',
-                             repoName: 'edx-platform',
-                             runCoverage: true,
-                             coverageJob: 'edx-platform-unit-coverage',
-                             workerLabel: 'ficus-jenkins-worker',
-                             whitelistBranchRegex: /open-release\/ficus.master/,
-                             context: 'jenkins/ficus/python',
-                             triggerPhrase: /.*ficus\W+run\W+python.*/,
-                             targetBranch: 'origin/open-release/ficus.master',
-                             defaultTestengBranch: 'origin/open-release/ficus.master'
-                             ]
 
 Map python3JobConfig = [ open: true,
                          jobName: 'edx-platform-python3-unittests-pr',
@@ -111,19 +89,17 @@ Map python3JobConfig = [ open: true,
                          runCoverage: true,
                          coverageJob: 'edx-platform-unit-coverage',
                          workerLabel: 'jenkins-worker',
-                         whitelistBranchRegex: /^((?!open-release\/).)*$/,
+                         whitelistBranchRegex: /^(?!tezt-rg)*$/,
                          context: 'jenkins/python3.5/python',
                          triggerPhrase: /.*jenkins\W+run\W+py35-django111\W+python.*/,
-                         targetBranch: 'origin/master',
+                         targetBranch: 'origin/ginkgo-rg',
                          defaultTestengBranch: 'master',
                          commentOnly: true,
                          toxEnv: 'py35-django111'
                          ]
 
 List jobConfigs = [ publicJobConfig,
-                    publicHawthornJobConfig,
                     publicGinkgoJobConfig,
-                    publicFicusJobConfig,
                     python3JobConfig
                     ]
 

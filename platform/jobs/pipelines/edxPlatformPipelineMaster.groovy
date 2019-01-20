@@ -66,9 +66,9 @@ jobConfigs.each { jobConfig ->
                         }
                         remote {
                             credentials('jenkins-worker')
-                            github('edx/edx-platform', 'ssh', 'github.com')
-                            refspec('+refs/heads/master:refs/remotes/origin/master')
-                            branch('youngstrom/add-bokchoy-jenkinsfile')
+                            github('raccoongang/edx-platform', 'ssh', 'github.com')
+                            refspec('+refs/heads/tezt-rg:refs/remotes/origin/tezt-rg')
+                            branch('tezt-rg')
                         }
                     }
                 }
